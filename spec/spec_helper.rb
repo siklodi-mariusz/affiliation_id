@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'bundler/setup'
+
 require 'affiliation_id'
 
 RSpec.configure do |config|

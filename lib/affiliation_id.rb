@@ -5,6 +5,7 @@ require 'securerandom'
 require_relative 'affiliation_id/version'
 
 module AffiliationId # :nodoc:
+  HEADER_KEY = 'X-Affiliation-ID'
   THREAD_KEY = 'AFFILIATION_ID'
 
   class << self

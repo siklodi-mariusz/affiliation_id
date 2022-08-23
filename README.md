@@ -2,6 +2,14 @@
 
 AffiliationId is a middleware collection for different frameworks and gems with the purpose of making end-to-end request tracing as easy as possible.
 
+The concept is really simple and it's meant to work like this:
+
+1. A request that reaches a web app or API it's the entry point and should have a unique ID.
+2. That ID is propagated throughout the app in all parts that are a consequence of the initial request, things like: requests to third-party APIs, Sidekiq jobs, error trackers, etc.
+3. The ID is included in  all the logs statements so they can be traced based on the ID
+
+Although there are tools like [OpenTelemetry](https://opentelemetry.io/), which is great, that is a much more complex tool and brings a lot of overhead that maybe is not worth it for some applications or teams.
+
 Currently implemented middleware:
 
 - Rack

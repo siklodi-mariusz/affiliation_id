@@ -4,6 +4,7 @@ require 'securerandom'
 
 require_relative 'affiliation_id/version'
 require_relative 'affiliation_id/configuration'
+require_relative 'affiliation_id/railtie' if defined?(Rails::Railtie)
 
 module AffiliationId # :nodoc:
   HEADER_KEY      = 'X-Affiliation-ID'

@@ -5,13 +5,46 @@ RSpec.describe AffiliationId do
     expect(AffiliationId::VERSION).not_to be nil
   end
 
+  before { described_class.reset! }
+
   describe '.current_id' do
     subject { described_class.current_id }
 
-    it { is_expected.to be }
+    around do |example|
+      old_value = described_class.configuration.enforce_explicit_current_id
+      described_class.configuration.enforce_explicit_current_id = enforce_explicit_current_id_value
+      example.call
+      described_class.configuration.enforce_explicit_current_id = old_value
+    end
 
-    it 'returns the same id on multiple calls' do
-      expect(Array.new(5) { described_class.current_id }.uniq).to be_one
+    context 'when config :enforce_explicit_current_id set to true' do
+      let(:enforce_explicit_current_id_value) { true }
+
+      context 'and current_id is not set explicitly' do
+        it 'raises error' do
+          expect { subject }.to raise_error(AffiliationId::MissingCurrentId)
+        end
+      end
+
+      context 'and current_id is set explicitly' do
+        before do
+          described_class.current_id = 'test'
+        end
+
+        it 'returns the same id on multiple calls' do
+          expect(Array.new(5) { described_class.current_id }.uniq).to be_one
+        end
+      end
+    end
+
+    context 'when config :enforce_explicit_current_id set to false' do
+      let(:enforce_explicit_current_id_value) { false }
+
+      it { is_expected.to be }
+
+      it 'returns the same id on multiple calls' do
+        expect(Array.new(5) { described_class.current_id }.uniq).to be_one
+      end
     end
   end
 
@@ -20,7 +53,11 @@ RSpec.describe AffiliationId do
     subject { described_class.current_id = new_id }
 
     it 'changes current_id' do
-      expect { subject }.to change { described_class.current_id }.to(new_id)
+      expect(subject).to eq(described_class.current_id)
+    end
+
+    it 'delegates to Thread.current' do
+      expect { subject }.to change { Thread.current[described_class::THREAD_KEY] }.from(nil).to(new_id)
     end
   end
 

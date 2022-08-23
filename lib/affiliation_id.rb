@@ -19,6 +19,8 @@ module AffiliationId # :nodoc:
     # @return [String] Uniq Affiliation ID
     #
     def current_id
+      raise MissingCurrentId if Thread.current[THREAD_KEY].nil? && configuration.enforce_explicit_current_id
+
       Thread.current[THREAD_KEY] ||= SecureRandom.uuid
     end
 
@@ -52,6 +54,12 @@ module AffiliationId # :nodoc:
 
     def configure
       yield configuration
+    end
+  end
+
+  class MissingCurrentId < StandardError # :nodoc:
+    def to_s
+      'Affiliation ID must be set explicitly'
     end
   end
 end

@@ -9,6 +9,13 @@ RSpec.describe AffiliationId::Middleware::Rack do
   let(:app) { ->(_) { [200, {}, 'Response'] } }
   let(:middleware) { described_class.new(app) }
 
+  shared_examples 'reseting AffiliationId' do
+    specify do
+      expect(AffiliationId).to receive(:reset!)
+      middleware_call
+    end
+  end
+
   describe '#call' do
     subject(:middleware_call) { middleware.call(env) }
 
@@ -18,6 +25,8 @@ RSpec.describe AffiliationId::Middleware::Rack do
 
         expect(headers).to have_key(AffiliationId::HEADER_KEY)
       end
+
+      it_behaves_like 'reseting AffiliationId'
     end
 
     context 'with header' do
@@ -49,6 +58,8 @@ RSpec.describe AffiliationId::Middleware::Rack do
           expect(headers[AffiliationId::HEADER_KEY].length).to eq(255)
         end
       end
+
+      it_behaves_like 'reseting AffiliationId'
     end
   end
 end

@@ -16,6 +16,8 @@ module AffiliationId
         AffiliationId.current_id = header_from_env(env) || AffiliationId.renew_current_id!
 
         @app.call(env).tap { |_status, headers, _body| headers[HEADER_KEY] = AffiliationId.current_id }
+      ensure
+        AffiliationId.reset!
       end
 
       private

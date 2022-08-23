@@ -16,10 +16,10 @@ module AffiliationId
     #    end
     #
     class Faraday < ::Faraday::Middleware
-      def on_request(env)
-        return if env[:request_headers][AffiliationId::HEADER_KEY]
+      def call(env)
+        env[:request_headers][AffiliationId::HEADER_KEY] ||= AffiliationId.current_id
 
-        env[:request_headers][AffiliationId::HEADER_KEY] = AffiliationId.current_id
+        @app.call(env)
       end
     end
   end

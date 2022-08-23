@@ -14,7 +14,7 @@ RSpec.describe AffiliationId::Middleware::Faraday do
     end
   end
 
-  describe '#on_request' do
+  describe '#call' do
     subject(:response) { conn.get('/affiliate') }
 
     context 'when request headers do not include affiliation_id' do

@@ -22,12 +22,14 @@ module AffiliationId
     # This middleware will take that value and set AffiliationId.current_id= to it.
     #
     # If there is no affiliation_id attribute in the job Hash, there is a fallback to AffiliationId.current_id,
-    # which generates a new one if it's not set.
+    # which depending on the configuration of :enforce_explicit_current_id raises an error or generates a new id.
     #
     class SidekiqServer
       def call(_, job, _)
         ::AffiliationId.current_id = job[::AffiliationId::SIDEKIQ_JOB_KEY] || ::AffiliationId.current_id
         yield
+      ensure
+        AffiliationId.reset!
       end
     end
   end

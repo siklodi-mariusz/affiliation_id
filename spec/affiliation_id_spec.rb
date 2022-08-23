@@ -40,4 +40,10 @@ RSpec.describe AffiliationId do
       expect(renewed).to eq(described_class.current_id)
     end
   end
+
+  describe '.configure' do
+    it 'yields configuration object' do
+      expect { |b| described_class.configure(&b).to yield_with_args(AffiliationId::Configuration) }
+    end
+  end
 end

@@ -3,6 +3,7 @@
 require 'securerandom'
 
 require_relative 'affiliation_id/version'
+require_relative 'affiliation_id/configuration'
 
 module AffiliationId # :nodoc:
   HEADER_KEY      = 'X-Affiliation-ID'
@@ -10,6 +11,8 @@ module AffiliationId # :nodoc:
   SIDEKIQ_JOB_KEY = 'affiliation_id'
 
   class << self
+    attr_writer :configuration
+
     #
     # Returns the current Affiliation ID
     #
@@ -37,6 +40,14 @@ module AffiliationId # :nodoc:
     #
     def renew_current_id!
       Thread.current[THREAD_KEY] = SecureRandom.uuid
+    end
+
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
+    def configure
+      yield configuration
     end
   end
 end

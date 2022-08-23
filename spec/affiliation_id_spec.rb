@@ -41,6 +41,18 @@ RSpec.describe AffiliationId do
     end
   end
 
+  describe '.reset!' do
+    subject { described_class.reset! }
+
+    before do
+      Thread.current[described_class::THREAD_KEY] = 'Test'
+    end
+
+    it 'clears Thread.current' do
+      expect { subject }.to change { Thread.current[described_class::THREAD_KEY] }.from('Test').to(nil)
+    end
+  end
+
   describe '.configure' do
     it 'yields configuration object' do
       expect { |b| described_class.configure(&b).to yield_with_args(AffiliationId::Configuration) }

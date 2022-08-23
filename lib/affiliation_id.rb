@@ -42,6 +42,10 @@ module AffiliationId # :nodoc:
       Thread.current[THREAD_KEY] = SecureRandom.uuid
     end
 
+    def reset!
+      Thread.current[THREAD_KEY] = nil
+    end
+
     def configuration
       @configuration ||= Configuration.new
     end

@@ -4,10 +4,12 @@ require 'securerandom'
 
 require_relative 'affiliation_id/version'
 require_relative 'affiliation_id/configuration'
+require_relative 'affiliation_id/middleware/faraday'
+require_relative 'affiliation_id/middleware/sidekiq_client'
+require_relative 'affiliation_id/middleware/sidekiq_server'
 require_relative 'affiliation_id/railtie' if defined?(Rails::Railtie)
 
 module AffiliationId # :nodoc:
-  HEADER_KEY      = 'X-Affiliation-ID'
   THREAD_KEY      = 'AFFILIATION_ID'
   SIDEKIQ_JOB_KEY = 'affiliation_id'
 

@@ -17,9 +17,15 @@ module AffiliationId
     #
     class Faraday < ::Faraday::Middleware
       def call(env)
-        env[:request_headers][AffiliationId::HEADER_KEY] ||= AffiliationId.current_id
+        env[:request_headers][config.header_name] ||= AffiliationId.current_id
 
         @app.call(env)
+      end
+
+      private
+
+      def config
+        AffiliationId.configuration
       end
     end
   end

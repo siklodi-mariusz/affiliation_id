@@ -3,12 +3,13 @@
 require 'affiliation_id/middleware/faraday'
 
 RSpec.describe AffiliationId::Middleware::Faraday do
+  let(:header_name) { AffiliationId.configuration.header_name }
   let(:conn) do
     Faraday.new do |f|
       f.request :affiliation_id
       f.adapter :test do |stub|
         stub.get('/affiliate') do |env|
-          [200, {}, env[:request_headers][AffiliationId::HEADER_KEY]]
+          [200, {}, env[:request_headers][header_name]]
         end
       end
     end
@@ -30,7 +31,7 @@ RSpec.describe AffiliationId::Middleware::Faraday do
     end
 
     context 'when request headers already include affiliation_id' do
-      subject(:response) { conn.get('/affiliate', nil, AffiliationId::HEADER_KEY => 'test') }
+      subject(:response) { conn.get('/affiliate', nil, header_name => 'test') }
 
       it 'does not interfere with existing header' do
         expect(response.body).to eq('test')

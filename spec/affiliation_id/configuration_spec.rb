@@ -15,4 +15,15 @@ RSpec.describe AffiliationId::Configuration do
       is_expected.to eq(true)
     end
   end
+
+  describe '#header_name' do
+    subject { instance.header_name }
+
+    it { expect(instance).to respond_to(:header_name) }
+    it { expect(instance).to respond_to(:header_name=) }
+
+    it 'is X-Request-ID by default' do
+      is_expected.to eq('X-Request-ID')
+    end
+  end
 end

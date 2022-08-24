@@ -148,6 +148,10 @@ AffiliationId.configure do |config|
   # By default AffiliationId.current_id will raise an AffiliationId::MissingCurrentId exception if the value was not previously set.
   # To opt in to the behavior of generating the id automatically config the following setting to false.
   # config.enforce_explicit_current_id = false (Default: true)
+
+  # AffiliationId uses 'X-Request-ID' as the default header name.
+  # This can be changed by the following config.
+  # config.header_name = 'My-Custom-Header' (Default: 'X-Request-ID')
 end
 ```
 

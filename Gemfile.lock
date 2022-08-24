@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    affiliation_id (0.1.0)
+    affiliation_id (0.2.0)
       faraday (>= 0.17.0, < 3)
       rack (>= 1.4)
 

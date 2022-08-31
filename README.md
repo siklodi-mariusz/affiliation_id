@@ -1,6 +1,7 @@
 # AffiliationId
 
 ![Build](https://github.com/siklodi-mariusz/affiliation_id/actions/workflows/main.yml/badge.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/1032910410cb9fe19d9e/maintainability)](https://codeclimate.com/github/siklodi-mariusz/affiliation_id/maintainability)
 
 AffiliationId is a middleware collection for different frameworks and gems with the purpose of making end-to-end request tracing as easy as possible.
 

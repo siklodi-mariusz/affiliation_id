@@ -1,5 +1,7 @@
 # AffiliationId
 
+![Build](https://github.com/siklodi-mariusz/affiliation_id/actions/workflows/main.yml/badge.svg)
+
 AffiliationId is a middleware collection for different frameworks and gems with the purpose of making end-to-end request tracing as easy as possible.
 
 The concept is really simple and it's meant to work like this:
